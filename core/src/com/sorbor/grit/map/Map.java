@@ -92,7 +92,7 @@ public class Map implements Disposable {
 
 	@Override
 	public void dispose() {
-
+		tex.dispose();
 	}
 
 }
