@@ -77,7 +77,7 @@ public class Airplane implements Unit {
 
 	@Override
 	public Vector2 getPosition() {
-		return new Vector2(sprite.getX()+sprite.getOriginX(), sprite.getX()+sprite.getOriginX());
+		return new Vector2(sprite.getX()+sprite.getOriginX(), sprite.getY()+sprite.getOriginY());
 	}
 
 	@Override
