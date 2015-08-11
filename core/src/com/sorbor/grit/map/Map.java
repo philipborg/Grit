@@ -79,13 +79,11 @@ public class Map implements Disposable {
 	}
 	
 	public void render(SpriteBatch sb, Vector2 topLeftScreenCornerPos, Vector2 screenSize){
-		/*
 		for (int x = 0; x < regions.length; x++) {
 			for (int y = 0; y < regions[0].length; y++) {
-				sb.draw(regions[x][y], x*chunkRes, y*chunkRes);
+				sb.draw(regions[y][x], x*chunkRes, -y*chunkRes);
 			}
-		}*/
-		sb.draw(tex, 0, 0);
+		}
 	}
 
 	public Map(FileHandle fh, float quality) throws Exception {
