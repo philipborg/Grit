@@ -16,10 +16,10 @@ public class KeyboardController implements InputController {
 	public static short upOne = -4;
 
 	public KeyboardController() {
-		keyMap.put(leftOne, Keys.LEFT);
-		keyMap.put(rightOne, Keys.RIGHT);
-		keyMap.put(downOne, Keys.DOWN);
-		keyMap.put(upOne, Keys.UP);
+		keyMap.put(leftOne, Keys.A);
+		keyMap.put(rightOne, Keys.D);
+		keyMap.put(downOne, Keys.S);
+		keyMap.put(upOne, Keys.W);
 	}
 
 	public void bindKey(short target, int key) {
