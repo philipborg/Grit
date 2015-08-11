@@ -55,12 +55,22 @@ public class Wheel implements Attachment, Entity, Disposable {
 
 	@Override
 	public void setDirection(float angleDegrees) {
-		rotation = angleDegrees % 360;
+		rotation = angleDegrees % 360; //Ensures that rotation is between but not including -360 and 360
 	}
 
 	@Override
 	public void dispose() {
 		tr[0].getTexture().dispose();
+	}
+
+	@Override
+	public Vector2 getPosition() {
+		return new Vector2(lastPos.x+tr[cFrame].getRegionWidth() / 2, lastPos.y+tr[cFrame].getRegionHeight() / 2);
+	}
+
+	@Override
+	public float getDirection() {
+		return rotation;
 	}
 
 }

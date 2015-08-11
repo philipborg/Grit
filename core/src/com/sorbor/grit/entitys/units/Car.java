@@ -58,11 +58,6 @@ public class Car implements Unit {
 	}
 
 	@Override
-	public Vector2 getPos() {
-		return new Vector2(sprite.getX(), sprite.getY());
-	}
-
-	@Override
 	public void render() {
 		// Renders each wheel
 		for (int i = 0; i < wheels.length - 1; i++) {
@@ -122,7 +117,7 @@ public class Car implements Unit {
 			} else {
 				wheels[i].setDirection(sprite.getRotation() + wheelAngleOffset);
 			}
-			Vector2 pos = getPos().add(sprite.getOriginX(), sprite.getOriginY())
+			Vector2 pos = getPosition()
 					.add(wheels[i].getOffset().rotate(sprite.getRotation()))
 					.sub(wheels[i].getWidth() / 2, wheels[i].getHeight() / 2);
 			wheels[i].setPosition(pos);
@@ -147,6 +142,16 @@ public class Car implements Unit {
 	@Override
 	public void setDirection(float angleDegrees) {
 		sprite.setRotation(angleDegrees);
+	}
+
+	@Override
+	public Vector2 getPosition() {
+		return new Vector2(sprite.getX()+sprite.getOriginX(), sprite.getX()+sprite.getOriginX());
+	}
+
+	@Override
+	public float getDirection() {
+		return sprite.getRotation();
 	}
 
 }

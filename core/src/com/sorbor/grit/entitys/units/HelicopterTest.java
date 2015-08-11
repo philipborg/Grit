@@ -29,11 +29,6 @@ public class HelicopterTest implements Unit {
 	}
 
 	@Override
-	public Vector2 getPos() {
-		return new Vector2(sprite.getX(), sprite.getY());
-	}
-
-	@Override
 	public void render() {
 
 		sprite.draw(sb);
@@ -84,5 +79,15 @@ public class HelicopterTest implements Unit {
 	@Override
 	public void setDirection(float angleDegrees) {
 		sprite.setRotation(angleDegrees);
+	}
+
+	@Override
+	public Vector2 getPosition() {
+		return new Vector2(sprite.getX()+sprite.getOriginX(), sprite.getX()+sprite.getOriginX());
+	}
+
+	@Override
+	public float getDirection() {
+		return sprite.getRotation();
 	}
 }
