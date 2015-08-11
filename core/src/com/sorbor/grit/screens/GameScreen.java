@@ -12,6 +12,7 @@ import com.sorbor.grit.entitys.EntityManager;
 import com.sorbor.grit.entitys.units.Helicopter;
 import com.sorbor.grit.input.InputController;
 import com.sorbor.grit.map.Map;
+import com.sorbor.grit.map.WaterRender;
 import com.sorbor.grit.util.CameraMovement;
 
 public class GameScreen implements Screen {
@@ -22,6 +23,7 @@ public class GameScreen implements Screen {
 	CameraMovement cv;
 	Viewport vp;
 	Map map;
+	WaterRender wr;
 
 	public GameScreen(Grit game, InputController[] ic) {
 		this.game = game;
@@ -30,6 +32,7 @@ public class GameScreen implements Screen {
 			em.addEntity(new Helicopter(sb, inputController));
 		}
 		map = new Map(Gdx.files.internal("Map01.png"));
+		wr = new WaterRender(sb);
 	}
 
 	@Override
@@ -47,6 +50,7 @@ public class GameScreen implements Screen {
 															// matrix
 		em.update(); // Updates all entities
 		sb.begin();
+		wr.render();
 		map.render(sb, new Vector2(), new Vector2());
 		em.render(sb); // Renders all entities
 		sb.end();
@@ -92,6 +96,7 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		sb.dispose(); // Disposes spritebatch
 		em.disposeAllChildren(); // Disposes all entities
+		wr.dispose();
 	}
 
 }
