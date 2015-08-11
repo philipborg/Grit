@@ -65,7 +65,6 @@ public class Helicopter implements Unit {
 		Vector2 pos = getPosition()
 				.add(blades.getOffset().rotate(sprite.getRotation()))
 				.sub(blades.getWidth() / 2, blades.getHeight() / 2);
-		blades.setDirection(sprite.getRotation());
 		blades.setPosition(pos);
 	}
 
