@@ -10,12 +10,14 @@ import com.sorbor.grit.Grit;
 import com.sorbor.grit.entitys.EntityManager;
 import com.sorbor.grit.entitys.units.Helicopter;
 import com.sorbor.grit.input.InputController;
+import com.sorbor.grit.util.CameraMovement;
 
 public class GameScreen implements Screen {
 
 	Grit game;
 	EntityManager em = new EntityManager();
 	SpriteBatch sb = new SpriteBatch();
+	CameraMovement cv;
 	Viewport vp;
 
 	public GameScreen(Grit game, InputController[] ic) {
@@ -24,15 +26,19 @@ public class GameScreen implements Screen {
 		for (InputController inputController : ic) {
 			em.addEntity(new Helicopter(sb, inputController));
 		}
+
 	}
 
 	@Override
 	public void show() {
 		vp = new FitViewport(2560, 1440); // Makes virtual screensize QHD
+		cv = new CameraMovement(vp.getCamera());
 	}
 
 	@Override
 	public void render(float delta) {
+		cv.update();
+		cv.setPosition(em.getEntity(0).getPosition());
 		vp.getCamera().update(); // Updates the camera
 		sb.setProjectionMatrix(vp.getCamera().combined); // Sets the projection
 															// matrix
