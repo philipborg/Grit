@@ -10,4 +10,8 @@ public interface Entity {
 	public void setPosition(Vector2 pos);
 
 	public void setDirection(float angleDegrees);
+	
+	public Vector2 getPosition();
+	
+	public float getDirection();
 }
