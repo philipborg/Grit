@@ -2,7 +2,6 @@ package com.sorbor.grit.map;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 
 import org.kamranzafar.jtar.TarEntry;
@@ -11,6 +10,7 @@ import org.kamranzafar.jtar.TarInputStream;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
@@ -20,6 +20,7 @@ import net.jpountz.lz4.LZ4SafeDecompressor;
 
 public class Map implements Disposable {
 
+	private static final int chunkRes = 256;
 	private final long id = System.currentTimeMillis();
 	private TextureRegion[][] regions;
 	private Texture tex;
@@ -65,9 +66,24 @@ public class Map implements Disposable {
 		//TODO Implement downscaling
 		
 		tex = new Texture(Gdx.files.external("Grit/tmp/" + id + "/map.png"));
-		regions = TextureRegion.split(tex, 128, 128);
+		regions = TextureRegion.split(tex, chunkRes, chunkRes);
+	}
+	
+	public Map(FileHandle img){
+		tex = new Texture(img);
+		regions = TextureRegion.split(tex, chunkRes, chunkRes);
+	}
+	
+	public void saveTo(FileHandle file){
 		
-		
+	}
+	
+	public void render(SpriteBatch sb, Vector2 topLeftScreenCornerPos, Vector2 screenSize){
+		for (int x = 0; x < regions.length; x++) {
+			for (int y = 0; y < regions[0].length; y++) {
+				sb.draw(regions[x][y], x*-chunkRes, y*-chunkRes);
+			}
+		}
 	}
 
 	public Map(FileHandle fh, float quality) throws Exception {
