@@ -1,0 +1,82 @@
+package com.sorbor.grit.screens;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.sorbor.grit.Grit;
+import com.sorbor.grit.entitys.EntityManager;
+import com.sorbor.grit.entitys.units.Car;
+import com.sorbor.grit.input.InputController;
+
+public class GameScreen implements Screen {
+
+	Grit game;
+	EntityManager em = new EntityManager();
+	SpriteBatch sb = new SpriteBatch();
+	Viewport vp;
+	
+	public GameScreen(Grit game, InputController[] ic) {
+		this.game = game;
+		System.out.println(Controllers.getControllers().size);
+		for (InputController inputController : ic) {
+			em.addEntity(new Car(sb, inputController));
+		}
+	}
+
+	@Override
+	public void show() {
+		vp = new FitViewport(2560, 1440);
+	}
+
+	@Override
+	public void render(float delta) {
+		vp.getCamera().update();
+		sb.setProjectionMatrix(vp.getCamera().combined);
+		em.update();
+		sb.begin();
+		em.render(sb);
+		sb.end();
+		
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		if(width<256){
+			width=256;
+			Gdx.graphics.setDisplayMode(width, height, Gdx.graphics.isFullscreen());
+		}
+		if(height<256){
+			height=256;
+			Gdx.graphics.setDisplayMode(width, height, Gdx.graphics.isFullscreen());
+		}
+		vp.update(Math.max(width, 256), Math.max(height, 256));
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hide() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose() {
+		sb.dispose();
+		em.disposeAllChildren();
+	}
+
+}
