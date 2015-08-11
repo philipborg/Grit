@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.sorbor.grit.entitys.units.attachments.HelicopterBlades;
 import com.sorbor.grit.input.InputController;
 
 public class HelicopterTest implements Unit {
@@ -17,11 +18,13 @@ public class HelicopterTest implements Unit {
 	private Vector2 speed = new Vector2();
 	private static final float acceleration = 10f;
 	private static final float topSpeed = 8f;
+	private HelicopterBlades blades;
 
 	
 	public HelicopterTest(SpriteBatch sb, InputController inputCon) {
 		// TODO Auto-generated constructor stub
 		sprite = new Sprite(new Texture("units/Helicopter.png"));
+		blades = new HelicopterBlades(sb, new Vector2(25,0));
 		sprite.setOriginCenter();
 		this.sb = sb;
 		cont = inputCon;
@@ -37,6 +40,7 @@ public class HelicopterTest implements Unit {
 	public void render() {
 
 		sprite.draw(sb);
+		blades.render();
 
 	}
 
@@ -63,7 +67,11 @@ public class HelicopterTest implements Unit {
 		speed.setLength((breakSpeed * Gdx.graphics.getDeltaTime()) > speed.len() ? 0
 				: (speed.len() - (breakSpeed * Gdx.graphics.getDeltaTime())));
 		sprite.setPosition(speed.x + sprite.getX(), speed.y + sprite.getY());
-
+		
+		Vector2 pos = getPos().add(sprite.getOriginX(), sprite.getOriginY())
+				.add(blades.getOffset().rotate(sprite.getRotation())).sub(blades.getWidth()/2, blades.getHeight()/2);
+		blades.setDirection(sprite.getRotation());
+		blades.setPosition(pos);
 	}
 
 	@Override
