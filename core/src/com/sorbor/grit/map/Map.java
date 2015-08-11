@@ -1,30 +1,54 @@
 package com.sorbor.grit.map;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.MapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Disposable;
 
 public class Map implements Disposable {
 
-	private TiledMap tmap;
-	private MapRenderer mapRend;
-
-	public Map(String map, OrthographicCamera cam) {
-		tmap = new TmxMapLoader().load("maps/" + map + ".tmx");
-		mapRend = new OrthogonalTiledMapRenderer(tmap, 1);
-		mapRend.setView(cam);
+	
+	/**
+	 * 
+	 * @param map // The filehandle for the zip file. Does not close the stream automatically.
+	 * @param quality // 1 is best quality
+	 * @throws IOException
+	 */
+	
+	public Map(InputStream map, float quality) throws IOException{
+		ZipInputStream zis = new ZipInputStream(map);
+		ZipEntry zipEntry;
+		while((zipEntry = zis.getNextEntry()) != null){ //Iterates all entries
+			switch (zipEntry.getName()) {
+			
+			case "level.png":
+				//Texture data
+				
+				break;
+				
+			default:
+				System.out.println("Dead file" + zipEntry.getName());
+				break;
+			}
+		}
 	}
-
-	public void render() {
-		mapRend.render();
+	
+	public Map(FileHandle map, float quality) throws IOException {
+		this(map.read(8192), quality);
+	}
+	
+	public Map(File map, float quality) throws IOException {
+		this(new FileInputStream(map), quality);
 	}
 
 	@Override
 	public void dispose() {
-		tmap.dispose();
+
 	}
 
 }
