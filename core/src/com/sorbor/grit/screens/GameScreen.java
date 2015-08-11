@@ -8,7 +8,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sorbor.grit.Grit;
 import com.sorbor.grit.entitys.EntityManager;
-import com.sorbor.grit.entitys.units.Car;
 import com.sorbor.grit.entitys.units.Helicopter;
 import com.sorbor.grit.input.InputController;
 
