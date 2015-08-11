@@ -5,22 +5,24 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.sorbor.grit.entitys.units.attachments.HelicopterBlades;
 import com.sorbor.grit.input.InputController;
 
 public class HelicopterTest implements Unit {
-	
+
 	private static final float rotationSpeed = 0.26f;
 	private static final float breakSpeed = 3f;
 	private Sprite sprite;
 	private SpriteBatch sb;
 	private InputController cont;
+	private HelicopterBlades blades;
 	private Vector2 speed = new Vector2();
 	private static final float acceleration = 10f;
 	private static final float topSpeed = 8f;
 
-	
 	public HelicopterTest(SpriteBatch sb, InputController inputCon) {
 		// TODO Auto-generated constructor stub
+		blades = new HelicopterBlades(sb, new Vector2(25, 0));
 		sprite = new Sprite(new Texture("units/Helicopter.png"));
 		sprite.setOriginCenter();
 		this.sb = sb;
@@ -32,6 +34,7 @@ public class HelicopterTest implements Unit {
 	public void render() {
 
 		sprite.draw(sb);
+		blades.render();
 
 	}
 
@@ -44,7 +47,7 @@ public class HelicopterTest implements Unit {
 					? -(vec2.angle((new Vector2(1, 0)).setAngle(-sprite.getRotation())))
 					: (vec2.angle((new Vector2(1, 0)).setAngle(-sprite.getRotation())))) * Gdx.graphics.getDeltaTime()
 					* rotationSpeed * 5);
-		}else if(vec.len() != 0){
+		} else if (vec.len() != 0) {
 			sprite.rotate(((vec.angle((new Vector2(1, 0)).setAngle(-sprite.getRotation()))) > 180
 					? -(vec.angle((new Vector2(1, 0)).setAngle(-sprite.getRotation())))
 					: (vec.angle((new Vector2(1, 0)).setAngle(-sprite.getRotation())))) * Gdx.graphics.getDeltaTime()
@@ -59,6 +62,11 @@ public class HelicopterTest implements Unit {
 				: (speed.len() - (breakSpeed * Gdx.graphics.getDeltaTime())));
 		sprite.setPosition(speed.x + sprite.getX(), speed.y + sprite.getY());
 
+		Vector2 pos = getPosition()
+				.add(blades.getOffset().rotate(sprite.getRotation()))
+				.sub(blades.getWidth() / 2, blades.getHeight() / 2);
+		blades.setDirection(sprite.getRotation());
+		blades.setPosition(pos);
 	}
 
 	@Override
@@ -83,7 +91,7 @@ public class HelicopterTest implements Unit {
 
 	@Override
 	public Vector2 getPosition() {
-		return new Vector2(sprite.getX()+sprite.getOriginX(), sprite.getY()+sprite.getOriginY());
+		return new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY());
 	}
 
 	@Override
