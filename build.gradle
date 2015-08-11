@@ -92,6 +92,7 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
 		compile "ar.com.hjg:pngj:2.1.0"
 		compile "net.jpountz.lz4:lz4:1.3"
+		compile "org.kamranzafar:jtar:2.2"
         compile "net.dermetfan.libgdx-utils:libgdx-utils:0.13.0"
     }
 }
