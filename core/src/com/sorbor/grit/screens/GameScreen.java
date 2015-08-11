@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sorbor.grit.Grit;
 import com.sorbor.grit.entitys.EntityManager;
 import com.sorbor.grit.entitys.units.Car;
-import com.sorbor.grit.entitys.units.HelicopterTest;
+import com.sorbor.grit.entitys.units.Helicopter;
 import com.sorbor.grit.input.InputController;
 
 public class GameScreen implements Screen {
@@ -23,7 +23,7 @@ public class GameScreen implements Screen {
 		this.game = game;
 		System.out.println(Controllers.getControllers().size);
 		for (InputController inputController : ic) {
-			em.addEntity(new HelicopterTest(sb, inputController));
+			em.addEntity(new Helicopter(sb, inputController));
 		}
 	}
 

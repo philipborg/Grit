@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.sorbor.grit.entitys.units.attachments.HelicopterBlades;
 import com.sorbor.grit.input.InputController;
 
-public class HelicopterTest implements Unit {
+public class Helicopter implements Unit {
 
 	private static final float rotationSpeed = 0.26f;
 	private static final float breakSpeed = 3f;
@@ -20,7 +20,7 @@ public class HelicopterTest implements Unit {
 	private static final float acceleration = 10f;
 	private static final float topSpeed = 8f;
 
-	public HelicopterTest(SpriteBatch sb, InputController inputCon) {
+	public Helicopter(SpriteBatch sb, InputController inputCon) {
 		// TODO Auto-generated constructor stub
 		blades = new HelicopterBlades(sb, new Vector2(25, 0));
 		sprite = new Sprite(new Texture("units/Helicopter.png"));
