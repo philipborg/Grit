@@ -4,12 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sorbor.grit.Grit;
 import com.sorbor.grit.entitys.EntityManager;
 import com.sorbor.grit.entitys.units.Helicopter;
 import com.sorbor.grit.input.InputController;
+import com.sorbor.grit.map.Map;
 import com.sorbor.grit.util.CameraMovement;
 
 public class GameScreen implements Screen {
@@ -19,6 +21,7 @@ public class GameScreen implements Screen {
 	SpriteBatch sb = new SpriteBatch();
 	CameraMovement cv;
 	Viewport vp;
+	Map map;
 
 	public GameScreen(Grit game, InputController[] ic) {
 		this.game = game;
@@ -26,7 +29,7 @@ public class GameScreen implements Screen {
 		for (InputController inputController : ic) {
 			em.addEntity(new Helicopter(sb, inputController));
 		}
-
+		map = new Map(Gdx.files.internal("Map01.png"));
 	}
 
 	@Override
@@ -44,6 +47,7 @@ public class GameScreen implements Screen {
 															// matrix
 		em.update(); // Updates all entities
 		sb.begin();
+		map.render(sb, new Vector2(), new Vector2());
 		em.render(sb); // Renders all entities
 		sb.end();
 
