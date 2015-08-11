@@ -23,7 +23,7 @@ public class GameScreen implements Screen {
 		this.game = game;
 		System.out.println(Controllers.getControllers().size);
 		for (InputController inputController : ic) {
-			em.addEntity(new HelicopterTest(sb, inputController));
+			em.addEntity(new Car(sb, inputController));
 		}
 	}
 
