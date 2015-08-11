@@ -14,9 +14,15 @@ public class Grit extends Game {
 
 	@Override
 	public void render() {
+		// Clears screen
 		Gdx.gl.glClearColor(0f, 0f, 0.7f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if(Gdx.input.isKeyPressed(Keys.ESCAPE)) Gdx.app.exit();
+
+		// Check if escape is pressed, if so exit
+		if (Gdx.input.isKeyPressed(Keys.ESCAPE))
+			Gdx.app.exit();
+
+		// Calls screen render
 		super.render();
 	}
 }

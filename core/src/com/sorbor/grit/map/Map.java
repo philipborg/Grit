@@ -7,7 +7,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Disposable;
 
-public class Map implements Disposable{
+public class Map implements Disposable {
 
 	private TiledMap tmap;
 	private MapRenderer mapRend;
@@ -17,8 +17,8 @@ public class Map implements Disposable{
 		mapRend = new OrthogonalTiledMapRenderer(tmap, 1);
 		mapRend.setView(cam);
 	}
-	
-	public void render(){
+
+	public void render() {
 		mapRend.render();
 	}
 

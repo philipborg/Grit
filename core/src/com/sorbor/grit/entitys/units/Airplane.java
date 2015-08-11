@@ -10,12 +10,12 @@ import com.sorbor.grit.util.MathUtil;
 
 public class Airplane implements Unit {
 
-	InputController inputCon;
-	float speed = 3;
-	float maxSize = 0.15f;
-	float minSize = 0.1f;
-	float speedSize = 0.035f;
-	int rotationSpeed = 67;
+	InputController inputCon; // The controller to use
+	private float speed = 3; // The speed
+	private float maxSize = 0.15f; // The min scale
+	private float minSize = 0.1f; // The max scale
+	private float speedSize = 0.035f;
+	private int rotationSpeed = 67; // How fast it can turn
 
 	public Airplane(SpriteBatch sb, InputController inputCon) {
 		this.sb = sb;
@@ -28,20 +28,28 @@ public class Airplane implements Unit {
 
 	@Override
 	public void update() {
-		Vector2 vec = inputCon.getDirectionOne();
-		sprite.rotate((-vec.x * Gdx.graphics.getDeltaTime() * rotationSpeed));
-		sprite.setPosition((float) (sprite.getX() + (Gdx.graphics.getDeltaTime() * speed * MathUtil.cosDegrees(sprite.getRotation()))),
-				(float) (sprite.getY() + (Gdx.graphics.getDeltaTime() * speed * MathUtil.sinDegrees(sprite.getRotation()))));
-		sprite.scale(vec.y*Gdx.graphics.getDeltaTime()*speedSize);
-		if(sprite.getScaleX()>maxSize)
+		Vector2 vec = inputCon.getDirectionOne(); // Get direction
+		sprite.rotate((-vec.x * Gdx.graphics.getDeltaTime() * rotationSpeed)); // Turn
+																				// airplane
+
+		// Move airplane on level
+		sprite.setPosition(
+				(float) (sprite.getX()
+						+ (Gdx.graphics.getDeltaTime() * speed * MathUtil.cosDegrees(sprite.getRotation()))),
+				(float) (sprite.getY()
+						+ (Gdx.graphics.getDeltaTime() * speed * MathUtil.sinDegrees(sprite.getRotation()))));
+		// Makes the airplane rise or sink
+		sprite.scale(vec.y * Gdx.graphics.getDeltaTime() * speedSize);
+		if (sprite.getScaleX() > maxSize)
 			sprite.setScale(maxSize);
-		if(sprite.getScaleX()<minSize)
+		if (sprite.getScaleX() < minSize)
 			sprite.setScale(minSize);
+
 	}
-	
+
 	Sprite sprite;
 	SpriteBatch sb;
-	
+
 	@Override
 	public Vector2 getPos() {
 		return new Vector2(sprite.getX(), sprite.getY());
@@ -58,7 +66,7 @@ public class Airplane implements Unit {
 	}
 
 	@Override
-	public void dispose(){
+	public void dispose() {
 		sprite.getTexture().dispose();
 	}
 

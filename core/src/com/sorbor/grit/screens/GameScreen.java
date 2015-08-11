@@ -17,7 +17,7 @@ public class GameScreen implements Screen {
 	EntityManager em = new EntityManager();
 	SpriteBatch sb = new SpriteBatch();
 	Viewport vp;
-	
+
 	public GameScreen(Grit game, InputController[] ic) {
 		this.game = game;
 		System.out.println(Controllers.getControllers().size);
@@ -28,55 +28,60 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		vp = new FitViewport(2560, 1440);
+		vp = new FitViewport(2560, 1440); // Makes virtual screensize QHD
 	}
 
 	@Override
 	public void render(float delta) {
-		vp.getCamera().update();
-		sb.setProjectionMatrix(vp.getCamera().combined);
-		em.update();
+		vp.getCamera().update(); // Updates the camera
+		sb.setProjectionMatrix(vp.getCamera().combined); // Sets the projection
+															// matrix
+		em.update(); // Updates all entities
 		sb.begin();
-		em.render(sb);
+		em.render(sb); // Renders all entities
 		sb.end();
-		
+
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		if(width<256){
-			width=256;
+
+		// Checks that it is not too small
+		if (width < 256) {
+			width = 256;
 			Gdx.graphics.setDisplayMode(width, height, Gdx.graphics.isFullscreen());
 		}
-		if(height<256){
-			height=256;
+		if (height < 256) {
+			height = 256;
 			Gdx.graphics.setDisplayMode(width, height, Gdx.graphics.isFullscreen());
 		}
-		vp.update(Math.max(width, 256), Math.max(height, 256));
+
+		vp.update(Math.max(width, 256), Math.max(height, 256));// Updates
+																// viewport
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void dispose() {
-		sb.dispose();
-		em.disposeAllChildren();
+		sb.dispose(); // Disposes spritebatch
+		em.disposeAllChildren(); // Disposes all entities
 	}
 
 }

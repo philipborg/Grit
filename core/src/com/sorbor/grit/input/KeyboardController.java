@@ -7,46 +7,46 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.controllers.PovDirection;
 
-public class KeyboardController implements InputController{
-	
+public class KeyboardController implements InputController {
+
 	HashMap<Short, Integer> keyMap = new HashMap<Short, Integer>();
 	public static short leftOne = -1;
 	public static short rightOne = -2;
 	public static short downOne = -3;
 	public static short upOne = -4;
-	
-	public KeyboardController(){
+
+	public KeyboardController() {
 		keyMap.put(leftOne, Keys.LEFT);
 		keyMap.put(rightOne, Keys.RIGHT);
 		keyMap.put(downOne, Keys.DOWN);
 		keyMap.put(upOne, Keys.UP);
 	}
-	
-	public void bindKey(short target, int key){
+
+	public void bindKey(short target, int key) {
 		keyMap.put(target, key);
 	}
-	
-	public String toString(){
+
+	public String toString() {
 		return "Keyboard";
-		
+
 	}
 
 	@Override
 	public Vector2 getDirectionOne() {
 		float x = 0;
 		float y = 0;
-		if(Gdx.input.isKeyPressed(keyMap.get(leftOne)) && !Gdx.input.isKeyPressed(keyMap.get(rightOne))){
+		if (Gdx.input.isKeyPressed(keyMap.get(leftOne)) && !Gdx.input.isKeyPressed(keyMap.get(rightOne))) {
 			x = -1;
-		} else if(!Gdx.input.isKeyPressed(keyMap.get(leftOne)) && Gdx.input.isKeyPressed(keyMap.get(rightOne))){
+		} else if (!Gdx.input.isKeyPressed(keyMap.get(leftOne)) && Gdx.input.isKeyPressed(keyMap.get(rightOne))) {
 			x = 1;
 		}
-		
-		if(Gdx.input.isKeyPressed(keyMap.get(downOne)) && !Gdx.input.isKeyPressed(keyMap.get(upOne))){
+
+		if (Gdx.input.isKeyPressed(keyMap.get(downOne)) && !Gdx.input.isKeyPressed(keyMap.get(upOne))) {
 			y = 1;
-		} else if(!Gdx.input.isKeyPressed(keyMap.get(downOne)) && Gdx.input.isKeyPressed(keyMap.get(upOne))){
+		} else if (!Gdx.input.isKeyPressed(keyMap.get(downOne)) && Gdx.input.isKeyPressed(keyMap.get(upOne))) {
 			y = -1;
 		}
-		
+
 		return new Vector2(x, y);
 	}
 
@@ -54,18 +54,18 @@ public class KeyboardController implements InputController{
 	public Vector2 getDirectionTwo() {
 		float x = 0;
 		float y = 0;
-		if(Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)){
+		if (Gdx.input.isKeyPressed(Keys.LEFT) && !Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			x = -1;
-		} else if(!Gdx.input.isKeyPressed(Keys.LEFT) && Gdx.input.isKeyPressed(Keys.RIGHT)){
+		} else if (!Gdx.input.isKeyPressed(Keys.LEFT) && Gdx.input.isKeyPressed(Keys.RIGHT)) {
 			x = 1;
 		}
-		
-		if(Gdx.input.isKeyPressed(Keys.DOWN) && !Gdx.input.isKeyPressed(Keys.UP)){
+
+		if (Gdx.input.isKeyPressed(Keys.DOWN) && !Gdx.input.isKeyPressed(Keys.UP)) {
 			y = -1;
-		} else if(!Gdx.input.isKeyPressed(Keys.DOWN) && Gdx.input.isKeyPressed(Keys.UP)){
+		} else if (!Gdx.input.isKeyPressed(Keys.DOWN) && Gdx.input.isKeyPressed(Keys.UP)) {
 			y = 1;
 		}
-		
+
 		return new Vector2(x, y);
 	}
 
@@ -84,7 +84,7 @@ public class KeyboardController implements InputController{
 	@Override
 	public void bindInput(short event, short key) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
