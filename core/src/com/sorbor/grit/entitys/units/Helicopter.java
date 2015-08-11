@@ -22,9 +22,10 @@ public class Helicopter implements Unit {
 
 	public Helicopter(SpriteBatch sb, InputController inputCon) {
 		// TODO Auto-generated constructor stub
-		blades = new HelicopterBlades(sb, new Vector2(25, 0));
+		blades = new HelicopterBlades(sb, new Vector2(0, 0));
 		sprite = new Sprite(new Texture("units/Helicopter.png"));
 		sprite.setOriginCenter();
+		sprite.setOrigin(sprite.getWidth()/2+25, sprite.getHeight()/2);
 		this.sb = sb;
 		cont = inputCon;
 
