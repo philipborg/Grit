@@ -25,8 +25,8 @@ public class KeyboardController implements InputController {
 		bindKey(DOWNONE, Keys.S);
 		bindKey(UPONE, Keys.W);
 		bindKey(LEFTTWO, Keys.LEFT);
-		bindKey(RIGHTONE, Keys.RIGHT);
-		bindKey(DOWNONE, Keys.DOWN);
+		bindKey(RIGHTTWO, Keys.RIGHT);
+		bindKey(DOWNTWO, Keys.DOWN);
 		bindKey(UPTWO, Keys.UP);
 	}
 
