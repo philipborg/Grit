@@ -3,7 +3,10 @@ package com.sorbor.grit.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -24,6 +27,7 @@ public class GameScreen implements Screen {
 	Viewport vp;
 	Map map;
 	WaterRender wr;
+	BitmapFont bmpFont;
 
 	public GameScreen(Grit game, InputController[] ic) {
 		this.game = game;
@@ -33,6 +37,13 @@ public class GameScreen implements Screen {
 		}
 		map = new Map(Gdx.files.internal("Map01.png"));
 		wr = new WaterRender(sb);
+		
+		//Font generating
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Esphimere Thin.otf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 25;
+		bmpFont = generator.generateFont(parameter);
+		generator.dispose();
 	}
 
 	@Override
@@ -53,6 +64,7 @@ public class GameScreen implements Screen {
 		wr.render();
 		map.render(sb, new Vector2(), new Vector2());
 		em.render(sb); // Renders all entities
+		bmpFont.draw(sb, ""+Gdx.graphics.getFramesPerSecond(), em.getEntity(0).getPosition().x-500, em.getEntity(0).getPosition().y+500);
 		sb.end();
 
 	}
