@@ -123,6 +123,7 @@ public class Helicopter implements Unit {
 	public void update() {
 		Vector2 vec = cont.getDirectionOne();
 		Vector2 vec2 = cont.getDirectionTwo();
+		vec2.y *= -1;
 		if (vec2.len() != 0) {
 			sprite.rotate(((vec2.angle((new Vector2(1, 0)).setAngle(-sprite.getRotation()))) > 180
 					? -(vec2.angle((new Vector2(1, 0)).setAngle(-sprite.getRotation())))
