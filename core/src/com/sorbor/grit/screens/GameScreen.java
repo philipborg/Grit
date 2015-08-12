@@ -3,7 +3,10 @@ package com.sorbor.grit.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -12,6 +15,7 @@ import com.sorbor.grit.entitys.EntityManager;
 import com.sorbor.grit.entitys.units.Helicopter;
 import com.sorbor.grit.input.InputController;
 import com.sorbor.grit.map.Map;
+import com.sorbor.grit.map.WaterRender;
 import com.sorbor.grit.util.CameraMovement;
 
 public class GameScreen implements Screen {
@@ -22,6 +26,8 @@ public class GameScreen implements Screen {
 	CameraMovement cv;
 	Viewport vp;
 	Map map;
+	WaterRender wr;
+	BitmapFont bmpFont;
 
 	public GameScreen(Grit game, InputController[] ic) {
 		this.game = game;
@@ -30,6 +36,14 @@ public class GameScreen implements Screen {
 			em.addEntity(new Helicopter(sb, inputController));
 		}
 		map = new Map(Gdx.files.internal("Map01.png"));
+		wr = new WaterRender(sb);
+		
+		//Font generating
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Esphimere Thin.otf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 25;
+		bmpFont = generator.generateFont(parameter);
+		generator.dispose();
 	}
 
 	@Override
@@ -47,8 +61,10 @@ public class GameScreen implements Screen {
 															// matrix
 		em.update(); // Updates all entities
 		sb.begin();
+		wr.render();
 		map.render(sb, new Vector2(), new Vector2());
 		em.render(sb); // Renders all entities
+		bmpFont.draw(sb, ""+Gdx.graphics.getFramesPerSecond(), em.getEntity(0).getPosition().x-500, em.getEntity(0).getPosition().y+500);
 		sb.end();
 
 	}
@@ -92,6 +108,7 @@ public class GameScreen implements Screen {
 	public void dispose() {
 		sb.dispose(); // Disposes spritebatch
 		em.disposeAllChildren(); // Disposes all entities
+		wr.dispose();
 	}
 
 }
