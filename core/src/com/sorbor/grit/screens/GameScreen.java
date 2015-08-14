@@ -108,9 +108,6 @@ public class GameScreen implements Screen {
 		sb.dispose(); // Disposes spritebatch
 		em.disposeAllChildren(); // Disposes all entities
 		wr.dispose();
-		if(game.jfxApp!=null){
-			game.jfxApp.run();
-		}
 	}
 
 }

@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.sorbor.grit.screens.ControllerScreen;
 
 public class Grit extends Game {
-	
-	public Runnable jfxApp;
 
 	@Override
 	public void create() {

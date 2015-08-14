@@ -19,12 +19,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-class ShowStage implements Runnable{
-	@Override
-	public void run() {
-		
-	}
-}
 
 public class MapEditor extends Application {
 
