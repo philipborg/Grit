@@ -35,10 +35,9 @@ public class GameScreen implements Screen {
 		for (InputController inputController : ic) {
 			em.addEntity(new Helicopter(sb, inputController));
 		}
-		map = new Map(Gdx.files.internal("Map01.png"));
 		wr = new WaterRender(sb);
-		
-		//Font generating
+
+		// Font generating
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Esphimere Thin.otf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 25;
@@ -64,7 +63,8 @@ public class GameScreen implements Screen {
 		wr.render();
 		map.render(sb, new Vector2(), new Vector2());
 		em.render(sb); // Renders all entities
-		bmpFont.draw(sb, ""+Gdx.graphics.getFramesPerSecond(), em.getEntity(0).getPosition().x-500, em.getEntity(0).getPosition().y+500);
+		bmpFont.draw(sb, "" + Gdx.graphics.getFramesPerSecond(), em.getEntity(0).getPosition().x - 500,
+				em.getEntity(0).getPosition().y + 500);
 		sb.end();
 
 	}
@@ -100,8 +100,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -109,6 +108,9 @@ public class GameScreen implements Screen {
 		sb.dispose(); // Disposes spritebatch
 		em.disposeAllChildren(); // Disposes all entities
 		wr.dispose();
+		if(game.jfxApp!=null){
+			game.jfxApp.run();
+		}
 	}
 
 }
