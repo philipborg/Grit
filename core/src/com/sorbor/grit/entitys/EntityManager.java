@@ -8,23 +8,35 @@ import com.sorbor.grit.entitys.units.Unit;
 
 public class EntityManager {
 
-	private byte layerQt = 5;
+	public static final byte BELOW_WATER = 0;
+	public static final byte BELOW_WATER_ABOVE = 1;
+	public static final byte ON_WATER = 2;
+	public static final byte ON_WATER_ABOVE = 3;
+	public static final byte ON_LAND = 4;
+	public static final byte ON_LAND_ABOVE = 5;
+	public static final byte IN_AIR_LOW_ALTITUDE = 6;
+	public static final byte IN_AIR_LOW_ALTITUDE_ABOVE = 7;
+	public static final byte IN_AIR_HIGH_ALTITUDE = 8;
+	public static final byte IN_AIR_HIGH_ALTITUDE_ABOVE = 9;
+	public static final byte ORBITAL = 10;
+	public static final byte ORBITAL_ABOVE = 11;
+	
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
-	private ArrayList<Unit>[] units;
+	private ArrayList<ArrayList<Unit>> units;
 
 	public EntityManager() {
 
-		units = new ArrayList[5];
+		units = new ArrayList<>(12);
 
 	}
 
 	public void addEntity(Entity entity) {
 		if (entity instanceof Unit) {
-			Unit temp = (Unit) entity;
-			if (units[temp.getLayer()] == null) {
-				units[temp.getLayer()] = new ArrayList<Unit>();
+			Unit unit = (Unit) entity;
+			if (units.get(unit.getLayer()) == null) {
+				units.set(unit.getLayer(), new ArrayList<>());
 			}
-			units[temp.getLayer()].add(temp);
+			units.get(unit.getLayer()).add(unit);
 		} else {
 			entities.add(entity);
 		}
