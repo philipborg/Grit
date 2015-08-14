@@ -7,7 +7,7 @@ import com.sorbor.grit.Grit;
 public class DesktopLauncher {
 	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration(); // Create
-																					// application
+
 		new LwjglApplication(new Grit(), config); // Start application
 	}
 }

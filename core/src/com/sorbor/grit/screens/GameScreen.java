@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -28,6 +29,7 @@ public class GameScreen implements Screen {
 	Map map;
 	WaterRender wr;
 	BitmapFont bmpFont;
+	ShaderProgram defaultShader;
 
 	public GameScreen(Grit game, InputController[] ic) {
 		this.game = game;
@@ -44,6 +46,10 @@ public class GameScreen implements Screen {
 		parameter.size = 25;
 		bmpFont = generator.generateFont(parameter);
 		generator.dispose();
+		
+		// Create shaders
+		defaultShader = SpriteBatch.createDefaultShader();
+		
 	}
 
 	@Override
@@ -60,7 +66,9 @@ public class GameScreen implements Screen {
 		sb.setProjectionMatrix(vp.getCamera().combined); // Sets the projection
 															// matrix
 		em.update(); // Updates all entities
+		
 		sb.begin();
+
 		wr.render();
 		map.render(sb, new Vector2(), new Vector2());
 		em.render(sb); // Renders all entities
