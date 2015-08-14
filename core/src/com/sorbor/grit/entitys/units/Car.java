@@ -9,8 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.sorbor.grit.entitys.units.attachments.Wheel;
 import com.sorbor.grit.input.InputController;
 
-public class Car implements Unit {
-
+public class Car extends Unit {
+	
+	private byte layer = 0;
 	private static final float rotationSpeed = 0.36f; // How fast you can turn
 	private static final float breakSpeed = 3.5f; // Friction
 	private Sprite sprite; // Car sprite
@@ -117,17 +118,12 @@ public class Car implements Unit {
 			} else {
 				wheels[i].setDirection(sprite.getRotation() + wheelAngleOffset);
 			}
-			Vector2 pos = getPosition()
-					.add(wheels[i].getOffset().rotate(sprite.getRotation()))
+			Vector2 pos = getPosition().add(wheels[i].getOffset().rotate(sprite.getRotation()))
 					.sub(wheels[i].getWidth() / 2, wheels[i].getHeight() / 2);
 			wheels[i].setPosition(pos);
 		}
 	}
 
-	@Override
-	public byte getHeightLevel() {
-		return 0;
-	}
 
 	@Override
 	public void dispose() {
@@ -146,12 +142,24 @@ public class Car implements Unit {
 
 	@Override
 	public Vector2 getPosition() {
-		return new Vector2(sprite.getX()+sprite.getOriginX(), sprite.getY()+sprite.getOriginY());
+		return new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY());
 	}
 
 	@Override
 	public float getDirection() {
 		return sprite.getRotation();
+	}
+
+	@Override
+	public byte getLayer() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setLayer(byte layer) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
