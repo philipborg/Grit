@@ -92,6 +92,22 @@ public class Map implements Disposable {
 		}
 	}
 
+	public int getEnvResolution() {
+		return enviroment.length;
+	}
+
+	/**
+	 * 
+	 * @return Raw file data of a PNG
+	 */
+	public byte[] getTerrainData() {
+		if (imageTerrain == null)
+			return null;
+		byte[] tmp = new byte[imageTerrain.length];
+		System.arraycopy(imageTerrain, 0, tmp, 0, tmp.length);
+		return tmp;
+	}
+
 	public void loadForGame(boolean keepMapEditor) {
 		if (tex != null)
 			tex.dispose();

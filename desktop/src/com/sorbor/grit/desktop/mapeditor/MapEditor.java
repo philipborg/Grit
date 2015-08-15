@@ -110,6 +110,8 @@ public class MapEditor extends Application {
 		});
 
 		tabMenu.getTabs().add(new FileTab(this));
+		
+		bp.setCenter(new EnvView(this));
 
 		Scene scene = new Scene(bp);
 		primaryStage.setScene(scene);
