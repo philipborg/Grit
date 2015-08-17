@@ -19,7 +19,6 @@ import com.sorbor.grit.input.InputController;
 import com.sorbor.grit.input.KeyboardController;
 import com.sorbor.grit.map.Map;
 import com.sorbor.grit.map.WaterRender;
-import com.sorbor.grit.shaders.ShadowShader;
 import com.sorbor.grit.util.CameraMovement;
 import com.sorbor.grit.util.PanCalculation;
 

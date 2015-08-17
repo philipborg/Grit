@@ -3,7 +3,6 @@ package com.sorbor.grit.shaders;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.utils.Disposable;
 
 public class GrayscaleShader implements Shader {
 	

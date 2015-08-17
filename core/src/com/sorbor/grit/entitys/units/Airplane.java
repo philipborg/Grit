@@ -83,13 +83,11 @@ public class Airplane extends Unit {
 
 	@Override
 	public byte getLayer() {
-		// TODO Auto-generated method stub
-		return 0;
+		return layer;
 	}
 
 	@Override
 	public void setLayer(byte layer) {
-		// TODO Auto-generated method stub
-
+		this.layer = layer;
 	}
 }
