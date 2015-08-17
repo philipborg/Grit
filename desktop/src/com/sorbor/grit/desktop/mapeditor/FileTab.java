@@ -95,7 +95,14 @@ public class FileTab extends Tab {
 						mapEd.mapFile = fh;
 					else
 						mapEd.mapFile = null;
-					mapEd.loadMap();
+					try {
+						mapEd.loadMap();
+					} catch (Exception e) {
+						ExceptionAlert.alertException(e, "Failed to load map.");
+						mapEd.map.dispose();
+						mapEd.map = null;
+						mapEd.mapFile = null;
+					}
 				}
 			}
 		});

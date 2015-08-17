@@ -15,10 +15,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
 
 public class MapEditor extends Application {
 
@@ -28,6 +28,9 @@ public class MapEditor extends Application {
 	private boolean savedSinceLastChange = false;
 	private boolean tabsLoaded = false;
 	private TabPane tabMenu;
+	private BorderPane bp;
+	double strokeSize = 1.5d;
+	Color strokeColour = Color.PURPLE;
 
 	public MapEditor() {
 
@@ -82,21 +85,28 @@ public class MapEditor extends Application {
 		}
 	}
 
-	public void loadMap() {
-		System.out.println("Loading tabs");
+	public void loadMap() throws Exception {
 		if (map != null && !tabsLoaded) {
-			System.out.println("Tabs loaded");
+			System.out.println("Loading tabs");
 			tabMenu.getTabs().add(new MapTab(this));
 			tabsLoaded = true;
+			System.out.println("Loading map");
+			bp.setCenter(new EnvView(map, strokeColour, strokeSize));
+		} else if (map != null) {
+			System.out.println("Reloading map");
+			bp.setCenter(new EnvView(map, strokeColour, strokeSize));
 		} else {
-			System.out.println("Tabs already loaded");
+			System.out.println("Tabs already loaded and no map present");
 		}
+
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primStage = primaryStage;
-		BorderPane bp = new BorderPane(); // Top level border pane
+		primStage.setMinWidth(600);
+		primStage.setMinHeight(600);
+		bp = new BorderPane(); // Top level border pane
 
 		tabMenu = new TabPane();
 		tabMenu.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
@@ -110,8 +120,6 @@ public class MapEditor extends Application {
 		});
 
 		tabMenu.getTabs().add(new FileTab(this));
-		
-		bp.setCenter(new EnvView(this));
 
 		Scene scene = new Scene(bp);
 		primaryStage.setScene(scene);
