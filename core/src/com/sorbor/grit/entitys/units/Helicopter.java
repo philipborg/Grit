@@ -103,7 +103,7 @@ public class Helicopter extends Unit {
 	private static final float acceleration = 10f;
 	private static final float topSpeed = 8f;
 	private static final Sound hoverSound = Gdx.audio
-			.newSound(Gdx.files.internal("sounds/HoverHelicopterFixedMono.wav"));
+			.newSound(Gdx.files.internal("sounds/HoverHelicopterFixedMono.ogg"));
 	private long hoverSoundId;
 
 	public Helicopter(SpriteBatch sb, InputController inputCon) {

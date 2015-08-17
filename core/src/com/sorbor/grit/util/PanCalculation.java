@@ -25,13 +25,10 @@ public class PanCalculation {
 		if (returnValue < -1)
 			returnValue = -1;
 		return returnValue;
-
 	}
 	
 	public static float calculateVolume(Vector2 pos){
-		pos = pos.sub(camPos);
-		System.out.println(pos.len());
-		return MathUtil.mapValues(pos.len(), -inMax*1.5f, inMax*1.5f, 1, 0);
+		return MathUtil.mapValues(pos.cpy().sub(camPos).len(), -inMax*1.5f, inMax*1.5f, 1, 0);
 	}
 
 }
