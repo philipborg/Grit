@@ -13,10 +13,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sorbor.grit.Grit;
 import com.sorbor.grit.entitys.EntityManager;
+import com.sorbor.grit.entitys.units.Car;
 import com.sorbor.grit.entitys.units.Helicopter;
 import com.sorbor.grit.input.InputController;
+import com.sorbor.grit.input.KeyboardController;
 import com.sorbor.grit.map.Map;
 import com.sorbor.grit.map.WaterRender;
+import com.sorbor.grit.shaders.ShadowShader;
 import com.sorbor.grit.util.CameraMovement;
 
 public class GameScreen implements Screen {
@@ -31,12 +34,15 @@ public class GameScreen implements Screen {
 	BitmapFont bmpFont;
 	ShaderProgram defaultShader;
 
+
 	public GameScreen(Grit game, InputController[] ic) {
 		this.game = game;
 		System.out.println(Controllers.getControllers().size);
 		for (InputController inputController : ic) {
 			em.addEntity(new Helicopter(sb, inputController));
 		}
+		
+		em.addEntity(new Car(sb, new KeyboardController()));
 		map = new Map(Gdx.files.internal("Map01.png"));
 		wr = new WaterRender(sb);
 		

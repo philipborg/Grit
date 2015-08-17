@@ -55,6 +55,8 @@ public class Car extends Unit {
 
 		// Handle
 		wheels[4] = new Wheel(handleTr, 1, sb, new Vector2(20, 0));
+		
+		setLayer((byte)4);
 
 	}
 

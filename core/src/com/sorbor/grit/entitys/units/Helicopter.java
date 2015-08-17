@@ -109,7 +109,8 @@ public class Helicopter extends Unit {
 		sprite.setOrigin(sprite.getWidth() / 2 + 25, sprite.getHeight() / 2);
 		this.sb = sb;
 		cont = inputCon;
-		setLayer((byte)1);
+		sprite.setScale(0.75f);
+		setLayer((byte)6);
 
 	}
 

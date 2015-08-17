@@ -20,46 +20,64 @@ public class EntityManager {
 	public static final byte IN_AIR_HIGH_ALTITUDE_ABOVE = 9;
 	public static final byte ORBITAL = 10;
 	public static final byte ORBITAL_ABOVE = 11;
-	
+
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<ArrayList<Unit>> units;
 
 	public EntityManager() {
 
 		units = new ArrayList<>(12);
+		for (int i = 0; i < 12; i++) {
+			units.add(new ArrayList<>());
+		}
 
 	}
 
 	public void addEntity(Entity entity) {
 		if (entity instanceof Unit) {
 			Unit unit = (Unit) entity;
-			if (units.get(unit.getLayer()) == null) {
-				units.set(unit.getLayer(), new ArrayList<>());
-			}
 			units.get(unit.getLayer()).add(unit);
-		} else {
-			entities.add(entity);
+
 		}
+		entities.add(entity);
+
 	}
 
 	public void update() {
 		for (Entity entity : entities) {
-			entity.update();
-		}
-		for (int i = 0; i < units.length; i++) {
-			if (units[i] != null) {
+			if (!(entity instanceof Unit)) {
+				entity.update();
 
-				for (Unit unit : units[i]) {
-					unit.update();
-				}
 			}
 		}
+
+		// entities.get(0).update();
+
+		for (int i = 0; i < units.size(); i++) {
+
+			for (int u = 0; u < units.get(i).size(); u++) {
+				units.get(i).get(u).update();
+
+			}
+		}
+
 	}
 
 	public void render(SpriteBatch sb) {
 
 		for (Entity entity : entities) {
-			entity.render();
+			if (!(entity instanceof Unit)) {
+				entity.render();
+
+			}
+
+		}
+		for (int i = 0; i < units.size(); i++) {
+
+			for (Unit unit : units.get(i)) {
+				unit.render();
+			}
+
 		}
 
 	}
