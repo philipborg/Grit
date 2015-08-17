@@ -1,6 +1,7 @@
 package com.sorbor.grit.entitys.units;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.sorbor.grit.entitys.Entity;
 import com.sorbor.grit.entitys.units.attachments.Attachment;
 import com.sorbor.grit.input.InputController;
+import com.sorbor.grit.util.PanCalculation;
 
 class HelicopterBlades implements Attachment, Entity, Disposable {
 
@@ -100,6 +102,9 @@ public class Helicopter extends Unit {
 	private Vector2 speed = new Vector2();
 	private static final float acceleration = 10f;
 	private static final float topSpeed = 8f;
+	private static final Sound hoverSound = Gdx.audio
+			.newSound(Gdx.files.internal("sounds/HoverHelicopterFixedMono.wav"));
+	private long hoverSoundId;
 
 	public Helicopter(SpriteBatch sb, InputController inputCon) {
 		// TODO Auto-generated constructor stub
@@ -110,7 +115,9 @@ public class Helicopter extends Unit {
 		this.sb = sb;
 		cont = inputCon;
 		sprite.setScale(0.75f);
-		setLayer((byte)6);
+		setLayer((byte) 6);
+		hoverSoundId = hoverSound.play(0.25f);
+		hoverSound.setLooping(hoverSoundId, true);
 
 	}
 
@@ -124,6 +131,7 @@ public class Helicopter extends Unit {
 
 	@Override
 	public void update() {
+
 		Vector2 vec = cont.getDirectionOne();
 		Vector2 vec2 = cont.getDirectionTwo();
 		// vec2.y *= -1;
@@ -150,11 +158,18 @@ public class Helicopter extends Unit {
 		Vector2 pos = getPosition().add(blades.getOffset().rotate(sprite.getRotation())).sub(blades.getWidth() / 2,
 				blades.getHeight() / 2);
 		blades.setPosition(pos);
+
+		// Pan the helicopter sound according to location, also pitch sound
+		// according to speed.
+		hoverSound.setPan(hoverSoundId, PanCalculation.calculatePan(getPosition().x), PanCalculation.calculateVolume(getPosition()));
+		hoverSound.setPitch(hoverSoundId, 0.8f + (speed.len() / 15));
+
 	}
 
 	@Override
 	public void dispose() {
 		sprite.getTexture().dispose();
+		hoverSound.dispose();
 	}
 
 	@Override
