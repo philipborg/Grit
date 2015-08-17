@@ -1,6 +1,7 @@
 package com.sorbor.grit.entitys.units;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,14 +11,15 @@ import com.badlogic.gdx.utils.Disposable;
 import com.sorbor.grit.entitys.Entity;
 import com.sorbor.grit.entitys.units.attachments.Attachment;
 import com.sorbor.grit.input.InputController;
+import com.sorbor.grit.util.PanCalculation;
 
 class HelicopterBlades implements Attachment, Entity, Disposable {
-	
+
 	private SpriteBatch sb;
 	float rotation = 0;
 	float rotationSpeed = 0.5f;
-	Vector2 offset = new Vector2(0,0);
-	Vector2 pos = new Vector2(0,0);
+	Vector2 offset = new Vector2(0, 0);
+	Vector2 pos = new Vector2(0, 0);
 	TextureRegion tr = new TextureRegion(new Texture(Gdx.files.internal("units/HelicopterBlade.png")));
 
 	public HelicopterBlades(SpriteBatch sb, Vector2 offset) {
@@ -30,37 +32,38 @@ class HelicopterBlades implements Attachment, Entity, Disposable {
 	public void dispose() {
 		// TODO Auto-generated method stub
 		tr.getTexture().dispose();
-		
+
 	}
 
 	@Override
 	public void render() {
 		// TODO Auto-generated method stub
-		sb.draw(tr, pos.x, pos.y, tr.getRegionWidth()/2,tr.getRegionHeight()/2, tr.getRegionWidth(), tr.getRegionHeight(), 1, 1, rotation+((System.currentTimeMillis()%360)*rotationSpeed));
-	
+		sb.draw(tr, pos.x, pos.y, tr.getRegionWidth() / 2, tr.getRegionHeight() / 2, tr.getRegionWidth(),
+				tr.getRegionHeight(), 1, 1, rotation + ((System.currentTimeMillis() % 360) * rotationSpeed));
+
 	}
 
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-	
+
 	}
 
 	@Override
 	public void setPosition(Vector2 pos) {
 		// TODO Auto-generated method stub
 		this.pos = pos;
-		
+
 	}
 
 	@Override
 	public void setDirection(float angleDegrees) {
 
-		rotation = angleDegrees%360;
-		
+		rotation = angleDegrees % 360;
+
 	}
-	
-	public Vector2 getOffset(){
+
+	public Vector2 getOffset() {
 		return offset.cpy();
 	}
 
@@ -68,7 +71,7 @@ class HelicopterBlades implements Attachment, Entity, Disposable {
 		// TODO Auto-generated method stub
 		return tr.getRegionWidth();
 	}
-	
+
 	public int getHeight() {
 		// TODO Auto-generated method stub
 		return tr.getRegionHeight();
@@ -77,18 +80,18 @@ class HelicopterBlades implements Attachment, Entity, Disposable {
 	@Override
 	public Vector2 getPosition() {
 		// TODO Auto-generated method stub
-		return new Vector2(pos.x+tr.getRegionWidth() / 2, pos.y+tr.getRegionHeight() / 2);
+		return new Vector2(pos.x + tr.getRegionWidth() / 2, pos.y + tr.getRegionHeight() / 2);
 	}
 
 	@Override
 	public float getDirection() {
 		// TODO Auto-generated method stub
-		return  rotation+((System.currentTimeMillis()%360)*rotationSpeed);
+		return rotation + ((System.currentTimeMillis() % 360) * rotationSpeed);
 	}
 
 }
 
-public class Helicopter implements Unit {
+public class Helicopter extends Unit {
 
 	private static final float rotationSpeed = 0.26f;
 	private static final float breakSpeed = 3f;
@@ -99,15 +102,22 @@ public class Helicopter implements Unit {
 	private Vector2 speed = new Vector2();
 	private static final float acceleration = 10f;
 	private static final float topSpeed = 8f;
+	private static final Sound hoverSound = Gdx.audio
+			.newSound(Gdx.files.internal("sounds/HoverHelicopterFixedMono.wav"));
+	private long hoverSoundId;
 
 	public Helicopter(SpriteBatch sb, InputController inputCon) {
 		// TODO Auto-generated constructor stub
 		blades = new HelicopterBlades(sb, new Vector2(0, 0));
 		sprite = new Sprite(new Texture("units/Helicopter.png"));
 		sprite.setOriginCenter();
-		sprite.setOrigin(sprite.getWidth()/2+25, sprite.getHeight()/2);
+		sprite.setOrigin(sprite.getWidth() / 2 + 25, sprite.getHeight() / 2);
 		this.sb = sb;
 		cont = inputCon;
+		sprite.setScale(0.75f);
+		setLayer((byte) 6);
+		hoverSoundId = hoverSound.play(0.25f);
+		hoverSound.setLooping(hoverSoundId, true);
 
 	}
 
@@ -121,9 +131,10 @@ public class Helicopter implements Unit {
 
 	@Override
 	public void update() {
+
 		Vector2 vec = cont.getDirectionOne();
 		Vector2 vec2 = cont.getDirectionTwo();
-		//vec2.y *= -1;
+		// vec2.y *= -1;
 		if (vec2.len() != 0) {
 			sprite.rotate(((vec2.angle((new Vector2(1, 0)).setAngle(-sprite.getRotation()))) > 180
 					? -(vec2.angle((new Vector2(1, 0)).setAngle(-sprite.getRotation())))
@@ -144,20 +155,21 @@ public class Helicopter implements Unit {
 				: (speed.len() - (breakSpeed * Gdx.graphics.getDeltaTime())));
 		sprite.setPosition(speed.x + sprite.getX(), speed.y + sprite.getY());
 
-		Vector2 pos = getPosition()
-				.add(blades.getOffset().rotate(sprite.getRotation()))
-				.sub(blades.getWidth() / 2, blades.getHeight() / 2);
+		Vector2 pos = getPosition().add(blades.getOffset().rotate(sprite.getRotation())).sub(blades.getWidth() / 2,
+				blades.getHeight() / 2);
 		blades.setPosition(pos);
-	}
 
-	@Override
-	public byte getHeightLevel() {
-		return 0;
+		// Pan the helicopter sound according to location, also pitch sound
+		// according to speed.
+		hoverSound.setPan(hoverSoundId, PanCalculation.calculatePan(getPosition().x), PanCalculation.calculateVolume(getPosition()));
+		hoverSound.setPitch(hoverSoundId, 0.8f + (speed.len() / 15));
+
 	}
 
 	@Override
 	public void dispose() {
 		sprite.getTexture().dispose();
+		hoverSound.dispose();
 	}
 
 	@Override
@@ -179,4 +191,5 @@ public class Helicopter implements Unit {
 	public float getDirection() {
 		return sprite.getRotation();
 	}
+
 }

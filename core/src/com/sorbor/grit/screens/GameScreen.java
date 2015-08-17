@@ -13,11 +13,15 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.sorbor.grit.Grit;
 import com.sorbor.grit.entitys.EntityManager;
+import com.sorbor.grit.entitys.units.Car;
 import com.sorbor.grit.entitys.units.Helicopter;
 import com.sorbor.grit.input.InputController;
+import com.sorbor.grit.input.KeyboardController;
 import com.sorbor.grit.map.Map;
 import com.sorbor.grit.map.WaterRender;
+import com.sorbor.grit.shaders.ShadowShader;
 import com.sorbor.grit.util.CameraMovement;
+import com.sorbor.grit.util.PanCalculation;
 
 public class GameScreen implements Screen {
 
@@ -34,22 +38,24 @@ public class GameScreen implements Screen {
 	public GameScreen(Grit game, InputController[] ic) {
 		this.game = game;
 		System.out.println(Controllers.getControllers().size);
+		em.addEntity(new Car(sb, new KeyboardController()));
 		for (InputController inputController : ic) {
 			em.addEntity(new Helicopter(sb, inputController));
 		}
+
 		map = new Map(Gdx.files.internal("Map01.png"));
 		wr = new WaterRender(sb);
-		
-		//Font generating
+
+		// Font generating
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Esphimere Thin.otf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 25;
 		bmpFont = generator.generateFont(parameter);
 		generator.dispose();
-		
+
 		// Create shaders
 		defaultShader = SpriteBatch.createDefaultShader();
-		
+
 	}
 
 	@Override
@@ -60,19 +66,21 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
+		PanCalculation.setCamPos(vp.getCamera().position.x, vp.getCamera().position.y);
 		cv.update();
 		cv.setPosition(em.getEntity(0).getPosition());
 		vp.getCamera().update(); // Updates the camera
 		sb.setProjectionMatrix(vp.getCamera().combined); // Sets the projection
 															// matrix
 		em.update(); // Updates all entities
-		
+
 		sb.begin();
 
 		wr.render();
 		map.render(sb, new Vector2(), new Vector2());
 		em.render(sb); // Renders all entities
-		bmpFont.draw(sb, ""+Gdx.graphics.getFramesPerSecond(), em.getEntity(0).getPosition().x-500, em.getEntity(0).getPosition().y+500);
+		bmpFont.draw(sb, "" + Gdx.graphics.getFramesPerSecond(), em.getEntity(0).getPosition().x - 500,
+				em.getEntity(0).getPosition().y + 500);
 		sb.end();
 
 	}

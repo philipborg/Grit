@@ -8,8 +8,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.sorbor.grit.input.InputController;
 import com.sorbor.grit.util.MathUtil;
 
-public class Airplane implements Unit {
+public class Airplane extends Unit {
 
+	private byte layer = 0;
 	InputController inputCon; // The controller to use
 	private float speed = 3; // The speed
 	private float maxSize = 0.15f; // The min scale
@@ -56,11 +57,6 @@ public class Airplane implements Unit {
 	}
 
 	@Override
-	public byte getHeightLevel() {
-		return 1;
-	}
-
-	@Override
 	public void dispose() {
 		sprite.getTexture().dispose();
 	}
@@ -77,11 +73,23 @@ public class Airplane implements Unit {
 
 	@Override
 	public Vector2 getPosition() {
-		return new Vector2(sprite.getX()+sprite.getOriginX(), sprite.getY()+sprite.getOriginY());
+		return new Vector2(sprite.getX() + sprite.getOriginX(), sprite.getY() + sprite.getOriginY());
 	}
 
 	@Override
 	public float getDirection() {
 		return sprite.getRotation();
+	}
+
+	@Override
+	public byte getLayer() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setLayer(byte layer) {
+		// TODO Auto-generated method stub
+
 	}
 }
