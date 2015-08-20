@@ -200,4 +200,9 @@ public class Map implements Disposable {
 		System.out.println("Sets environment to " + ((int) Math.pow(2, envExponent)) + "^2");
 		enviroment = new float[(int) Math.pow(2, envExponent)][(int) Math.pow(2, envExponent)][2];
 	}
+	
+	public float[][][] getEnvironment(){
+		return enviroment;
+		
+	}
 }

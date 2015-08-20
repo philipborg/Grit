@@ -10,7 +10,7 @@ public class DesktopLauncher {
 
 		boolean normalStart = true;
 		if (arg.length > 0) {
-			if (arg[0].equals("mapeditor")) {
+			if (arg[0].toLowerCase().equals("mapeditor")) {
 				normalStart = false;
 				MapEditor.launch(MapEditor.class, arg);
 			}
