@@ -59,7 +59,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-		vp = new FitViewport(2560, 1440); // Makes virtual screensize QHD
+		vp = new FitViewport(1920, 1080); // Makes virtual screensize QHD
 		cv = new CameraMovement(vp.getCamera());
 	}
 

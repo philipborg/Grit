@@ -10,12 +10,12 @@ import com.badlogic.gdx.utils.Disposable;
 public class WaterRender implements Disposable {
 
 	private SpriteBatch sb;
-	private final int chunkRes = 256/4;
+	private final int chunkRes = 256/8;
 	private Texture tex = new Texture("WaterTexture.png");
 	private TextureRegion texRegions[][];
 	private ShaderProgram waterShader;
 	private ShaderProgram defaultShader;
-	private float amplitude = 10f;
+	private float amplitude = 15f;
 	private float angle = 2f;
 	private float angleSpeed = 0.85f;
 	public static final float PI2 = (float) Math.PI * 2;

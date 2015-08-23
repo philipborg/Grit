@@ -10,8 +10,7 @@ import com.sorbor.grit.entitys.units.attachments.Wheel;
 import com.sorbor.grit.input.InputController;
 
 public class Car extends Unit {
-	
-	private byte layer = 0;
+
 	private static final float rotationSpeed = 0.36f; // How fast you can turn
 	private static final float breakSpeed = 3.5f; // Friction
 	private Sprite sprite; // Car sprite
@@ -28,6 +27,7 @@ public class Car extends Unit {
 													// the center on the Y axis
 
 	public Car(SpriteBatch sb, InputController inputCon) {
+		super(sb);
 		sprite = new Sprite(new Texture("verynice.png")); // Loads sprite
 		sprite.setOriginCenter();
 		this.sb = sb;
@@ -55,8 +55,8 @@ public class Car extends Unit {
 
 		// Handle
 		wheels[4] = new Wheel(handleTr, 1, sb, new Vector2(20, 0));
-		
-		setLayer((byte)4);
+
+		setLayer((byte) 4);
 
 	}
 
@@ -126,7 +126,6 @@ public class Car extends Unit {
 		}
 	}
 
-
 	@Override
 	public void dispose() {
 		sprite.getTexture().dispose();
@@ -150,16 +149,6 @@ public class Car extends Unit {
 	@Override
 	public float getDirection() {
 		return sprite.getRotation();
-	}
-
-	@Override
-	public byte getLayer() {
-		return layer;
-	}
-
-	@Override
-	public void setLayer(byte layer) {
-		this.layer = layer;
 	}
 
 }

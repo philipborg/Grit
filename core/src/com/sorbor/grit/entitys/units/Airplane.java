@@ -19,6 +19,7 @@ public class Airplane extends Unit {
 	private int rotationSpeed = 67; // How fast it can turn
 
 	public Airplane(SpriteBatch sb, InputController inputCon) {
+		super(sb);
 		this.sb = sb;
 		this.inputCon = inputCon;
 		sprite = new Sprite(new Texture("Plane.png"));

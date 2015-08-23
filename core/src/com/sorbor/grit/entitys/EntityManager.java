@@ -76,6 +76,7 @@ public class EntityManager {
 
 			for (Unit unit : units.get(i)) {
 				unit.render();
+				unit.renderInfo(unit.getPosition());
 			}
 
 		}

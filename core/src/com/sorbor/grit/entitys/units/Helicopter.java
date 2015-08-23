@@ -103,11 +103,12 @@ public class Helicopter extends Unit {
 	private static final float acceleration = 10f;
 	private static final float topSpeed = 8f;
 	private static final Sound hoverSound = Gdx.audio
-			.newSound(Gdx.files.internal("sounds/HoverHelicopterFixedMono.ogg"));
+			.newSound(Gdx.files.internal("sounds/PartiParty.ogg"));
 	private long hoverSoundId;
 
 	public Helicopter(SpriteBatch sb, InputController inputCon) {
 		// TODO Auto-generated constructor stub
+		super(sb);
 		blades = new HelicopterBlades(sb, new Vector2(0, 0));
 		sprite = new Sprite(new Texture("units/Helicopter.png"));
 		sprite.setOriginCenter();
