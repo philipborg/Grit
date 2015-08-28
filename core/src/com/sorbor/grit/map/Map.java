@@ -37,7 +37,7 @@ public class Map implements Disposable {
 	private Texture tex;
 	private byte[] imageTerrain;
 	private static final LZ4Factory fac = LZ4Factory.fastestInstance();
-	private float[][][] enviroment;
+	private float[][][] environment;
 
 	/**
 	 * 
@@ -51,7 +51,7 @@ public class Map implements Disposable {
 		System.out.println("Using compression method " + fac.toString());
 		// Decompress data to memory
 		LZ4SafeDecompressor decomp = fac.safeDecompressor();
-		byte[] restored = null;
+		byte[] restored = new byte[134217728];
 		decomp.decompress(mapFileData, restored);
 
 		// Unarchive data to files
@@ -73,12 +73,12 @@ public class Map implements Disposable {
 		Kryo kryo = new Kryo();
 		kryo.register(float[][][].class, Serialization.ENVIRONMENT);
 
-		if (!files.containsKey("enviroment.bin")) {
-			throw new FileNotFoundException("enviroment.bin not found in map file");
+		if (!files.containsKey("environment.bin")) {
+			throw new FileNotFoundException("environment.bin not found in map file");
 		}
 
 		Input input = new Input(files.get("environment.bin"));
-		enviroment = kryo.readObject(input, float[][][].class);
+		environment = kryo.readObject(input, float[][][].class);
 		input.close();
 
 		imageTerrain = files.get("terrain.png");
@@ -93,7 +93,7 @@ public class Map implements Disposable {
 	}
 
 	public int getEnvResolution() {
-		return enviroment.length;
+		return environment.length;
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class Map implements Disposable {
 
 		// Environment export
 		Output out = new Output(new ByteArrayOutputStream());
-		kryo.writeObject(out, enviroment);
+		kryo.writeObject(out, environment);
 		out.flush();
 		byte[] env = ((ByteArrayOutputStream) out.getOutputStream()).toByteArray();
 		out.close();
@@ -173,7 +173,7 @@ public class Map implements Disposable {
 		}
 		int compLength = compressor.compress(input, compressedData);
 		System.out.println("Compression decreased data with " + (compressedData.length - compLength) / 1000f + "KB"
-				+ " from " + compressedData.length / 1000f + "KB to " + compLength + "KB");
+				+ " from " + compressedData.length / 1000f + "KB to " + compLength / 1000f + "KB");
 		byte[] output = new byte[compLength];
 		System.arraycopy(compressedData, 0, output, 0, compLength);
 		file.writeBytes(output, false);
@@ -198,11 +198,34 @@ public class Map implements Disposable {
 
 	public void setEnvRes(int envExponent) {
 		System.out.println("Sets environment to " + ((int) Math.pow(2, envExponent)) + "^2");
-		enviroment = new float[(int) Math.pow(2, envExponent)][(int) Math.pow(2, envExponent)][2];
+		environment = new float[(int) Math.pow(2, envExponent)][(int) Math.pow(2, envExponent)][2];
 	}
 	
 	public float[][][] getEnvironment(){
-		return enviroment;
-		
+		return environment;
+	}
+	
+	public float getXEnvFactorOffset(int x, int y, int layer){
+		if(environment[x][y][layer]>=1){
+			return 1;
+		} else if(environment[x][y][layer]>=0){
+			return environment[x][y][layer];
+		} else if(environment[x][y][layer]<=-1){
+			return (environment[x][y][layer]+1)*-1;
+		} else {
+			return 0;
+		}
+	}
+	
+	public float getYEnvFactorOffset(int x, int y, int layer){
+		if(environment[x][y][layer]>1){
+			return (environment[x][y][layer]-1);
+		} else if(environment[x][y][layer]>=0){
+			return 0;
+		} else if(environment[x][y][layer]<=-1){
+			return 1;
+		} else {
+			return environment[x][y][layer]*-1;
+		}
 	}
 }

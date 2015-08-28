@@ -29,7 +29,7 @@ public class MapEditor extends Application {
 	private boolean tabsLoaded = false;
 	private TabPane tabMenu;
 	private BorderPane bp;
-	double strokeSize = 1.5d;
+	double strokeSize = 1;
 	Color strokeColour = Color.PURPLE;
 
 	public MapEditor() {
@@ -92,13 +92,14 @@ public class MapEditor extends Application {
 			tabsLoaded = true;
 			System.out.println("Loading map");
 			bp.setCenter(new EnvView(map, strokeColour, strokeSize));
+			bp.getTop().toFront();
 		} else if (map != null) {
 			System.out.println("Reloading map");
 			bp.setCenter(new EnvView(map, strokeColour, strokeSize));
+			tabMenu.toFront();
 		} else {
 			System.out.println("Tabs already loaded and no map present");
 		}
-
 	}
 
 	@Override
@@ -106,8 +107,7 @@ public class MapEditor extends Application {
 		this.primStage = primaryStage;
 		primStage.setMinWidth(600);
 		primStage.setMinHeight(600);
-		bp = new BorderPane(); // Top level border pane
-
+		this.bp = new BorderPane(); // Top level border pane
 		tabMenu = new TabPane();
 		tabMenu.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		bp.setTop(tabMenu);

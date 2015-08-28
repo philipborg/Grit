@@ -15,6 +15,7 @@ public class ExceptionAlert {
 
 	public static void alertException(Exception e, String header, String content) {
 		try {
+			e.printStackTrace();
 			// Create alert window
 			Alert alert = new Alert(AlertType.ERROR);
 			alert.setTitle("Error");
