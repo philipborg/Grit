@@ -84,18 +84,26 @@ public class EnvView extends Pane {
 							lineDrawCanvas.getHeight());
 
 					// Calculate new collisions
-					long offsetX = Math
-							.round(Math.ceil(Math.min(startLinePos.x, event.getX() - bg.getTranslateX()) / frequency));
-					long offsetY = Math
-							.round(Math.ceil(Math.min(startLinePos.y, event.getY() - bg.getTranslateY()) / frequency));
-					long endPosX = Math
-							.round(Math.floor(Math.max(startLinePos.x, event.getX() - bg.getTranslateX()) / frequency));
-					long endPosY = Math
-							.round(Math.floor(Math.max(startLinePos.y, event.getY() - bg.getTranslateY()) / frequency));
+					int startPosX = (int) Math.round(Math.max(
+							Math.ceil(Math.min(startLinePos.x, event.getX() - bg.getTranslateX()) / frequency), 0));
+					int startPosY = (int) Math.round(Math.max(
+							Math.ceil(Math.min(startLinePos.y, event.getY() - bg.getTranslateY()) / frequency), 0));
+					int endPosX = (int) Math.round(Math.min(
+							Math.floor(Math.max(startLinePos.x, event.getX() - bg.getTranslateX()) / frequency),
+							map.getEnvResolution() + 1));
+					int endPosY = (int) Math.round(Math.min(
+							Math.floor(Math.min(startLinePos.y, event.getY() - bg.getTranslateY()) / frequency),
+							map.getEnvResolution() + 1));
 
-					System.out.println("Offset X: " + offsetX + " Offset Y: " + offsetY + " Width: " + endPosX
-							+ " Height: " + endPosY);
-					
+					System.out.println("StartPosX: " + startPosX + " StartPosY: " + startPosY + "EndPosX: " + endPosX
+							+ " EndPosY: " + endPosY);
+					double[][] lineCrosses = new double[1 + endPosX - startPosX][1 + endPosY - startPosY];
+					for (long x = startPosX; x < endPosX; x++) {
+						for (long y = startPosY; y < endPosY; y++) {
+
+						}
+					}
+
 					startLinePos = null;
 					break;
 				case MIDDLE:
